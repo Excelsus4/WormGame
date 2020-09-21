@@ -27,9 +27,6 @@
     <ClCompile Include="Systems\Device.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Background.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Bullet.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -44,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="Renders\Animation.cpp">
       <Filter>Renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Worm.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,9 +72,6 @@
     <ClInclude Include="Systems\Device.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Background.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Bullet.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -89,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="Renders\Animation.h">
       <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Worm.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

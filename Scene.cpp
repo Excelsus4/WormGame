@@ -1,60 +1,30 @@
 #include "stdafx.h"
 #include "./Systems/Device.h"
-#include "./Objects/Background.h"
-#include "./Objects/Bullet.h"
+#include "./Objects/Worm.h"
 
-Background* bg;
-Animation* animation;
+Worm* character;
 
 void InitScene() {
-	bg = new Background(Shaders+L"008_Sprite.fx");
-
-	animation = new Animation();
-
 	wstring spriteFile = Textures + L"Metalslug.png";
 	wstring shaderFile = Shaders + L"008_Sprite.fx";
 
-	Clip* clip;
-	// Idle
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 4, 2, 33, 40), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 35, 2, 64, 40), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 64, 2, 93, 40), 0.3f);
-		animation->AddClip(clip);
-	}
-
-	// Run
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 33, 600, 64, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 65, 600, 96, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 97, 600, 124, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 125, 600, 154, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 158, 600, 188, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 191, 600, 222, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 224, 600, 258, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 259, 600, 294, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 295, 600, 326, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 329, 600, 360, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 362, 600, 393, 640), 0.1f);
-		animation->AddClip(clip);
-	}
-
-	animation->Position(100, 170);
-	animation->Scale(2.5f, 2.5f);
-	animation->Play(0);
+	character = new Worm(shaderFile, D3DXVECTOR2(Width / 2, Height/2), 15, 0.15f, 12);
 }
 
 void DestroyScene(){
-	SAFE_DELETE(animation);
-	SAFE_DELETE(bg);
+	SAFE_DELETE(character);
 }
 
 D3DXMATRIX V, P;
 
 void Update() {
+	//============================================================================
+	// Player Key Input
+	if (Key->Press(VK_RIGHT))
+		character->VectorRotate(Math::ToRadian(-0.05f));
+	if (Key->Press(VK_LEFT))
+		character->VectorRotate(Math::ToRadian(0.05f));
+
 	//View
 	D3DXVECTOR3 eye(0, 0, -1);
 	D3DXVECTOR3 at(0, 0, 0);
@@ -64,16 +34,14 @@ void Update() {
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 
-	bg->Update(V, P);
-	animation->Update(V, P);
+	character->Update(V, P);
 }
 
 void Render() {
 	D3DXCOLOR bgColor = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
-		bg->Render();
-		animation->Render();
+		character->Render();
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);
