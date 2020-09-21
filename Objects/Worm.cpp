@@ -17,10 +17,14 @@ Worm::Worm(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed, int 
 	velocity.x = cosf(radian);
 	velocity.y = sinf(radian);
 	velocity *= speed;
+
+	cooltime = 0.07f;
+	timer = 0;
 }
 
 Worm::~Worm()
 {
+	SAFE_DELETE(Head);
 	for (auto a : body)
 		SAFE_DELETE(a);
 }
@@ -37,9 +41,15 @@ void Worm::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		Reflection(D3DXVECTOR2(0, -1));
 
 	Sprite* one = *(body.begin());
-	one->Position(position);
-	body.erase(body.begin());
-	body.push_back(one);
+
+	timer += Timer->Elapsed();
+	if (timer >= cooltime) {
+		one->Position(position);
+		body.erase(body.begin());
+		body.push_back(one);
+
+		timer = 0;
+	}
 	position += velocity;
 
 	Head->Position(position);
@@ -66,4 +76,24 @@ void Worm::VectorRotate(const float & angle)
 	prime.x = velocity.x*cosf(angle) - velocity.y*sinf(angle);
 	prime.y = velocity.x *sinf(angle) + velocity.y*cosf(angle);
 	velocity = prime;
+}
+
+bool Worm::CollisionCheck(const D3DXVECTOR2 & pos, const float & colSize)
+{
+	D3DXVECTOR2 delta = position - pos; 
+	if (D3DXVec2Dot(&delta, &delta) < colSize*colSize)
+		return true;
+	return false;
+}
+
+void Worm::Grow(int amount)
+{
+	length+=amount;
+
+	for (int i = 0; i < amount; i++) {
+		Sprite* cider = new Sprite(Textures + L"Bullets.png", Shaders + L"008_Sprite.fx", 252, 325, 270, 343);
+		cider->Position(position);
+		body.push_back(cider);
+		velocity *= 1.04;
+	}
 }

@@ -144,7 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Objects\Bullet.cpp" />
+    <ClCompile Include="Objects\Fruit.cpp" />
     <ClCompile Include="Objects\Worm.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
@@ -165,7 +165,7 @@
     <None Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Fruit.h" />
     <ClInclude Include="Objects\Worm.h" />
     <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />

@@ -10,8 +10,14 @@ public:
 
 	void Reflection(const D3DXVECTOR2& n);
 	void VectorRotate(const float& angle);
+
+	bool CollisionCheck(const D3DXVECTOR2& pos, const float& colSize);
+	void Grow(int amount);
 private:
 	int length;
+
+	float cooltime;
+	float timer;
 
 	D3DXVECTOR2 velocity;
 	D3DXVECTOR2 position;
